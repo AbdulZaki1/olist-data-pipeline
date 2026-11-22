@@ -23,7 +23,7 @@ FROM raw.customers;
 -- products: fix typo kolom + translate kategori
 CREATE OR REPLACE TABLE stg.products AS
 SELECT p.product_id,
-  coalesce(t.product_category_name_english, 'unknown') AS category,
+        coalesce(t.product_category_name_english, p.product_category_name, 'unknown') AS category,
   p.product_weight_g AS weight_g
 FROM raw.products p
 LEFT JOIN raw.category_translation t USING (product_category_name);
