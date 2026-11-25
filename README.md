@@ -104,7 +104,7 @@ WARN rows are known source-data issues. They are kept and flagged rather than si
 ### Challenges & Lessons Learned
 
 - **Locale broke decimal numbers.** On a laptop with Indonesian regional settings, Power BI read `.` as a thousands separator, so prices were inflated. Fixed with *Change Type → Using Locale → English (United States)*.
-- **Year filter did nothing.** The `fact → dim_date` relationship was wrong; rebuilding it as many-to-one on `date_key` fixed the filtering.
+- **Year filter returned blank results.** The `fact → dim_date` relationship was wrong; rebuilding it as many-to-one on `date_key` fixed the filtering.
 - **Incomplete periods.** 2016 has very few orders and data after August 2018 is partial, so the dashboard focuses on Jan 2017 – Aug 2018.
 - **Missing translations.** Some categories had no English name; `COALESCE` keeps them visible instead of losing 610 products.
 
@@ -130,7 +130,7 @@ WARN rows are known source-data issues. They are kept and flagged rather than si
    pip install -r requirements.txt
    ```
 2. **Download the data** from [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) and put the 9 CSV files in `data/raw/`. (`data/` is git-ignored.)
-3. **Run the pipeline:** open `notebooks/01_load.ipynb`, change the `os.chdir(...)` path in the first cell to your repo folder, and run all cells. This builds `data/olist.duckdb` with the `raw`, `stg`, `mart` and `dq` schemas.
+3. **Run the pipeline:** open `notebooks/01_load.ipynb` and run all cells (the first cell finds the repo root automatically). This builds `data/olist.duckdb` with the `raw`, `stg`, `mart` and `dq` schemas.
 4. **Export for Power BI**
    ```bash
    python scripts/export_marts.py
